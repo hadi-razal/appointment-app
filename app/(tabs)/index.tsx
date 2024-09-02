@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, SafeAreaView } from 'react-native';
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
@@ -11,7 +11,7 @@ const appointments = [
 
 export default function HomeScreen() {
   return (
-    <SafeAreaView className="flex-1">
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }} className='bg-gray-100'>
       <View className="flex-1 bg-gray-100 py-14">
         <View className="p-4">
           <Text className="text-3xl font-bold text-center text-blue-900 mb-6">
@@ -50,6 +50,6 @@ export default function HomeScreen() {
           </TouchableOpacity>
         </View>
       </View>
-    </SafeAreaView>
+    </ ScrollView>
   );
 }
