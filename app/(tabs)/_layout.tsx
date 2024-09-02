@@ -1,8 +1,8 @@
-import { Tabs } from 'expo-router';
 import React from 'react';
-
-import { Colors } from '@/constants/Colors';
+import { Tabs } from 'expo-router';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { Colors } from '@/constants/Colors';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -10,22 +10,31 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
-      }}>
+        tabBarActiveTintColor: Colors.primaryColor,
+        tabBarStyle: {
+          backgroundColor: Colors.secondaryColor,
+        },
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
           title: 'Home',
-
+          headerShown: false,
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name='home' color={color} size={30} />
+          ),
         }}
       />
-      
       <Tabs.Screen
         name="profile"
         options={{
           title: 'Profile',
-
+          headerShown: false,
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name='person' color={color} size={30} />
+          ),
         }}
       />
     </Tabs>
