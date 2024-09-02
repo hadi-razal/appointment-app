@@ -4,8 +4,11 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import * as ImagePicker from 'expo-image-picker';
 import { FontAwesome } from '@expo/vector-icons';
 import { Stack } from 'expo-router';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '@/firebase';
 
 const SignUpPage = () => {
+
     const [loading, setLoading] = useState(false);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -18,6 +21,14 @@ const SignUpPage = () => {
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
     const handleSignup = async () => {
+
+
+
+        createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                console.log(userCredential);
+            })
+
         if (password !== confirmPassword) {
             Alert.alert('Error', 'Passwords do not match');
             return;
@@ -63,12 +74,15 @@ const SignUpPage = () => {
 
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }} className="bg-white">
+
             <Stack.Screen
                 options={{
                     headerShown: false,
                 }}
             />
+
             <View className="flex flex-col items-center px-6 py-8 pt-20">
+
                 <View className="w-full items-start justify-start mb-6">
                     <Text className="text-blue-900 text-3xl font-bold">mediCare</Text>
                     <Text className="text-gray-500 text-lg">Sign up to create an account</Text>
