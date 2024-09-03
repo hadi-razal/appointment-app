@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, router, Stack } from 'expo-router';
 import { View, Text, TextInput, Pressable, ScrollView } from 'react-native';
 import { signInWithEmailAndPassword } from 'firebase/auth';
@@ -9,7 +9,7 @@ const LoginPage = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
 
-    
+
 
     const handleLogin = async () => {
         try {
@@ -29,6 +29,18 @@ const LoginPage = () => {
             console.log(error);
         }
     };
+
+
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged((user) => {
+            if (user) {
+                router.replace('/home');
+            }
+        });
+        return () => unsubscribe();
+    }, []);
+
+
 
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }} className='bg-white'>

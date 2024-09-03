@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Text, View, TouchableOpacity, SafeAreaView } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { router, Stack } from 'expo-router';
@@ -7,11 +7,14 @@ import { auth } from '@/firebase';
 export default function LandingScreen() {
 
 
-    const user = auth.currentUser
-
-    if (user) {
-        router.push('/home')
-    }
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged((user) => {
+            if (user) {
+                router.replace('/home');
+            }
+        });
+        return () => unsubscribe();
+    }, []);
 
 
     return (
@@ -24,7 +27,7 @@ export default function LandingScreen() {
                     <Text className="text-6xl font-extrabold text-center text-blue-900 mb-4">
                         Medi Care
                     </Text>
-                <Text className="text-lg font-light text-center text-gray-600 mb-6">
+                    <Text className="text-lg font-light text-center text-gray-600 mb-6">
                         mediCare provides a comprehensive online healthcare solution to manage and track your health seamlessly.
                         From scheduling appointments with healthcare professionals to accessing your medical records anytime and anywhere.
                     </Text>

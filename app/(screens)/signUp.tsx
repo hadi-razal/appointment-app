@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, Pressable, ScrollView, Image, TouchableOpacity, Alert, ActivityIndicator, KeyboardAvoidingView, Platform } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import * as ImagePicker from 'expo-image-picker';
@@ -88,6 +88,16 @@ const SignUpPage = () => {
         setDateOfBirth(selectedDate);
         hideDatePicker();
     };
+
+
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged((user) => {
+            if (user) {
+                router.replace('/home');
+            }
+        });
+        return () => unsubscribe();
+    }, []);
 
     return (
         <KeyboardAvoidingView
