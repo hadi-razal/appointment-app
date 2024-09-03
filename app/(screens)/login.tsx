@@ -29,7 +29,7 @@ const LoginPage = () => {
     };
 
     return (
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }} className='bg-gray-100'>
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }} className='bg-white'>
 
             <Stack.Screen
                 options={{
@@ -43,22 +43,28 @@ const LoginPage = () => {
                     <Text className="text-gray-500 text-base mb-4">Sign in to continue</Text>
                 </View>
 
-                <TextInput
-                    value={email}
-                    onChangeText={(text) => setEmail(text)}
-                    className="rounded-md px-4 py-2 mb-2 bg-white text-base w-full focus:outline-none"
-                    placeholder="Email"
-                    placeholderTextColor="#aaa"
-                />
+                <View className="w-full mb-2">
+                    <Text className="text-gray-700 mb-2">Email</Text>
+                    <TextInput
+                        className="bg-gray-100 px-4 py-2 rounded-md"
+                        placeholder="Enter your email"
+                        keyboardType="email-address"
+                        value={email}
+                        onChangeText={setEmail}
+                    />
+                </View>
 
-                <TextInput
-                    value={password}
-                    onChangeText={(text) => setPassword(text)}
-                    className="rounded-md px-4 py-2 mb-2 bg-white text-base w-full focus:outline-none"
-                    placeholder="Password"
-                    placeholderTextColor="#aaa"
-                    secureTextEntry
-                />
+
+                <View className="w-full mb-2">
+                    <Text className="text-gray-700 mb-2">Passowrd</Text>
+                    <TextInput
+                        className="bg-gray-100 px-4 py-2 rounded-md"
+                        placeholder="Enter your password"
+                        value={password}
+                        onChangeText={setPassword}
+                    />
+                </View>
+
 
                 <Pressable onPress={handleLogin} className='bg-blue-600 shadow-md p-4 w-full rounded-md'>
                     <Text className='text-white text-center font-normal'>{loading ? 'Logging in...' : 'Login'}</Text>
