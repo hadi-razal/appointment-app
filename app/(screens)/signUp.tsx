@@ -3,9 +3,12 @@ import { View, Text, TextInput, Pressable, ScrollView, Image, TouchableOpacity, 
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import * as ImagePicker from 'expo-image-picker';
 import { FontAwesome } from '@expo/vector-icons';
-import { Stack } from 'expo-router';
+import { Link, router, Stack } from 'expo-router';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '@/firebase';
+import { auth, db, storage } from '@/firebase';
+import { addDoc, collection } from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+
 
 const SignUpPage = () => {
 
@@ -22,21 +25,46 @@ const SignUpPage = () => {
 
     const handleSignup = async () => {
 
-
-
-        createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                console.log(userCredential);
-            })
-
         if (password !== confirmPassword) {
             Alert.alert('Error', 'Passwords do not match');
             return;
         }
+
         try {
             setLoading(true);
-            // Simulate an API call or signup process
+            const userCredential: any = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+
+
+
+            let profileImageUrl = '';
+
+            if (profileImage) {
+                const storageRef = ref(storage, `profileImages/${user.uid}`);
+                const img = await fetch(profileImage);
+                const bytes = await img.blob();
+                await uploadBytes(storageRef, bytes);
+                profileImageUrl = await getDownloadURL(storageRef);
+            }
+
+            if (userCredential._tokenResponse.idToken) {
+                await addDoc(collection(db, "users"), {
+                    uid: user.uid,
+                    name: name,
+                    phone: phoneNumber,
+                    gender: gender,
+                    dateOfBirth: dateOfBirth,
+                    email: user.email,
+                    profileImageUrl: profileImageUrl, // Add the image URL to Firestore
+                    createdAt: new Date(),
+                });
+
+                router.push('/login');
+            }
+
+            // Simulate an API call or signup process (if needed)
             await new Promise(resolve => setTimeout(resolve, 2000));
+
             setLoading(false);
             Alert.alert('Success', 'Signup Successful');
         } catch (error) {
@@ -45,6 +73,7 @@ const SignUpPage = () => {
             console.error(error);
         }
     };
+
 
     const pickImage = async () => {
         const result: any = await ImagePicker.launchImageLibraryAsync({
@@ -213,6 +242,15 @@ const SignUpPage = () => {
                         <Text className="text-white text-center font-normal">Sign Up</Text>
                     )}
                 </Pressable>
+
+                <View className="mt-4 flex flex-col items-center justify-center gap-1 py-3">
+                    <Text>Don't have an account?{" "}
+                        <Link href={'/login'} className="text-blue-800 text-sm">Log in</Link>
+                    </Text>
+
+                </View>
+
+
             </View>
         </ScrollView>
     );

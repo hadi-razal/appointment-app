@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { Link, Stack } from 'expo-router';
+import { Link, router, Stack } from 'expo-router';
 import { View, Text, TextInput, Pressable, ScrollView } from 'react-native';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '@/firebase';
 
 const LoginPage = () => {
     const [loading, setLoading] = useState<boolean>(false);
@@ -9,8 +11,13 @@ const LoginPage = () => {
 
     const handleLogin = async () => {
         try {
+
+            signInWithEmailAndPassword(auth, email, password).then((usercredential) => {
+                router.push("/home")
+            })
+
             setLoading(true);
-            // Simulate login process
+
             await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate network request
             setLoading(false);
             alert('Login Successful'); // Or handle successful login logic here
@@ -59,13 +66,14 @@ const LoginPage = () => {
 
                 <View className="mt-4 flex flex-col items-center justify-center gap-1 py-3">
                     <Text>Don't have an account?{" "}
-                        <Link href={'/signupModal'} className="text-blue-800 text-sm">Sign up</Link>
+                        <Link href={'/signup'} className="text-blue-800 text-sm">Sign up</Link>
                     </Text>
 
                     <Link href={'/forgotpassword'} className="text-blue-800 text-sm">
                         Forgot Password?
                     </Link>
                 </View>
+
             </View>
         </ScrollView>
     );
