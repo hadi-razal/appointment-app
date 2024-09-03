@@ -5,15 +5,14 @@ import { router, Stack } from 'expo-router';
 
 const appointments = [
   // Example appointments, replace with your data fetching logic
-  { id: 1, doctor: 'Dr. Smith', time: '10:00 AM - 11:00 AM', date: 'Sep 5, 2024' },
+  // { id: 1, doctor: 'Dr. Smith', time: '10:00 AM - 11:00 AM', date: 'Sep 5, 2024' },
   { id: 2, doctor: 'Dr. Jane Doe', time: '2:00 PM - 3:00 PM', date: 'Sep 7, 2024' },
 ];
 
 export default function HomeScreen() {
   return (
-    <SafeAreaView style={{ flex: 1 }} className='bg-white' >
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }} >
-
+    <SafeAreaView style={{ flex: 1 }} className="bg-white">
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <Stack.Screen options={{ headerShown: false }} />
 
         <View className="py-10 px-4">
@@ -70,23 +69,23 @@ export default function HomeScreen() {
           )}
 
           {/* Action Buttons */}
-          <View className="flex-row justify-between">
+          <View className="flex-row gap-2 justify-between items-center">
             <TouchableOpacity
               onPress={() => router.push('/login')}
               className="bg-blue-600 p-4 rounded-lg flex-row items-center justify-center shadow-lg"
             >
-              <Text className="text-white text-lg font-bold ml-2">Book Appointment</Text>
-            </TouchableOpacity >
+              <Text className="text-white text-md font-norma ml-2">Book Appointment</Text>
+            </TouchableOpacity>
 
             <TouchableOpacity
               onPress={() => router.push('/signUp')}
               className="bg-green-600 p-4 rounded-lg flex-row items-center justify-center shadow-lg"
             >
-              <Text className="text-white text-lg font-bold ml-2">View Available Slots</Text>
+              <Text className="text-white text-md font-normal ml-2">View Available Slots</Text>
             </TouchableOpacity>
-          </View >
-        </View >
-      </ScrollView >
-    </SafeAreaView >
+          </View>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }

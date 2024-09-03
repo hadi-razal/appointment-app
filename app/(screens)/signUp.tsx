@@ -6,7 +6,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { Link, router, Stack } from 'expo-router';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth, db, storage } from '@/firebase';
-import { addDoc, collection } from 'firebase/firestore';
+import { doc, setDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 const SignUpPage = () => {
@@ -29,7 +29,7 @@ const SignUpPage = () => {
 
         try {
             setLoading(true);
-            const userCredential: any = await createUserWithEmailAndPassword(auth, email, password);
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
 
             let profileImageUrl = '';
@@ -42,29 +42,24 @@ const SignUpPage = () => {
                 profileImageUrl = await getDownloadURL(storageRef);
             }
 
-            if (userCredential._tokenResponse.idToken) {
-                await addDoc(collection(db, "users"), {
-                    uid: user.uid,
-                    name: name,
-                    phone: phoneNumber,
-                    gender: gender,
-                    dateOfBirth: dateOfBirth,
-                    email: user.email,
-                    profileImageUrl: profileImageUrl,
-                    createdAt: new Date(),
-                });
-
-                router.push('/login');
-            }
-
-            await new Promise(resolve => setTimeout(resolve, 2000));
+            await setDoc(doc(db, "users", user.uid), {
+                uid: user.uid,
+                name: name,
+                phone: phoneNumber,
+                gender: gender,
+                dateOfBirth: dateOfBirth,
+                email: user.email,
+                profileImageUrl: profileImageUrl,
+                createdAt: new Date(),
+            });
 
             setLoading(false);
             Alert.alert('Success', 'Signup Successful');
-        } catch (error) {
+            router.push('/login');
+        } catch (error: any) {
             setLoading(false);
-            Alert.alert('Error', 'Signup Failed');
-            console.error(error);
+            Alert.alert('Error', `Signup Failed: ${error.message}`);
+            console.error('Signup error:', error);
         }
     };
 
