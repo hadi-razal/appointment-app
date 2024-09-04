@@ -5,10 +5,22 @@ import { auth, db } from '@/firebase';
 import { useRouter } from 'expo-router';
 import { FontAwesome } from '@expo/vector-icons';
 import { doc, getDoc } from 'firebase/firestore';
+import { clinics } from '@/data/data';
+
+interface Clinic {
+    id: string;
+    name: string;
+    location: string;
+    specialization: string;
+    description: string;
+    contact: string;
+    rating: number;
+}
 
 const Book = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [userDetails, setUserDetails] = useState<any>('');
+    const [selectedSpecialization, setSelectedSpecialization] = useState<any>();
     const router = useRouter();
 
     useEffect(() => {
@@ -16,45 +28,22 @@ const Book = () => {
             try {
                 const user = auth.currentUser; // Get the currently logged-in user
                 if (user) {
-                    const docRef = doc(db, "users", user.uid);
+                    const docRef = doc(db, 'users', user.uid);
                     const docSnap = await getDoc(docRef);
                     if (docSnap.exists()) {
                         setUserDetails(docSnap.data()); // Set user details to state
                     }
                 }
-            } catch (err: any) {
-                console.log(err)
+            } catch (err) {
+                console.error(err);
             }
         };
 
         fetchUserDetails();
     }, []);
 
-    // Hardcoded data for doctors and clinics
-    const data = [
-        {
-            id: '1',
-            name: 'Dr. John Doe',
-            location: 'New York',
-            specialization: 'Cardiologist',
-            description: 'Experienced cardiologist specializing in heart diseases and preventive care.',
-            contact: '555-1234',
-            rating: 4.8,
-        },
-        {
-            id: '2',
-            name: 'Clinic XYZ',
-            location: 'Los Angeles',
-            specialization: 'General Practice',
-            description: 'Multi-specialty clinic offering comprehensive healthcare services.',
-            contact: '555-5678',
-            rating: 4.5,
-        },
-        // ... (other data)
-    ];
-
     // Render item for FlatList
-    const renderItem = ({ item }: any) => (
+    const clinicItem = ({ item }: { item: Clinic }) => (
         <Pressable
             className="p-4 border border-gray-300 rounded-md my-2 bg-white"
         >
@@ -102,10 +91,21 @@ const Book = () => {
         </Pressable>
     );
 
+    const specializationItem = ({ item }: { item: string }) => (
+        <Pressable
+            onPress={() => setSelectedSpecialization(item)}
+            className={`mr-2 border border-gray-300 rounded-md bg-white h-10 flex items-center justify-center px-2 ${selectedSpecialization === item ? 'bg-blue-500' : ''}`}
+        >
+            <Text className={`text-lg font-bold ${selectedSpecialization === item ? 'text-white' : 'text-blue-900'}`}>
+                {item}
+            </Text>
+        </Pressable>
+    );
+
+
     return (
         <View className="flex-1 pt-10 px-4 bg-white">
             {/* Header */}
-
             <View className='flex flex-row items-center justify-between'>
                 <View className="pt-4">
                     <Text className="text-blue-900 text-3xl font-bold">Medi Care</Text>
@@ -125,7 +125,6 @@ const Book = () => {
                 </View>
             </View>
 
-
             {/* Search Input */}
             <View className="my-4">
                 <TextInput
@@ -136,14 +135,26 @@ const Book = () => {
                 />
             </View>
 
+            {/* Specialization Filter */}
+            <View className='mb-3'>
+                <FlatList
+                    horizontal
+                    data={[...new Set(clinics.map((item) => item.specialization))]}
+                    renderItem={specializationItem}
+                    keyExtractor={(item) => item}
+                    showsHorizontalScrollIndicator={false}
+                />
+            </View>
+
+
             {/* FlatList for doctors and clinics */}
             <View className='mb-10 h-full'>
                 <FlatList
-                    data={data.filter(item =>
+                    data={clinics.filter((item: Clinic) =>
                         item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                         item.location.toLowerCase().includes(searchTerm.toLowerCase())
                     )}
-                    renderItem={renderItem}
+                    renderItem={clinicItem}
                     keyExtractor={(item) => item.id}
                 />
             </View>
