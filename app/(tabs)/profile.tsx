@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Image, Text, View, Alert, Pressable, ScrollView, TextInput } from 'react-native';
+import { Image, Text, View, Alert, Pressable, ScrollView, TextInput, ActivityIndicator } from 'react-native';
 import { doc, getDoc } from 'firebase/firestore';
 import { auth, db } from '@/firebase';
 import { router } from 'expo-router';
@@ -47,6 +47,7 @@ const Profile = () => {
     if (loading) {
         return (
             <View className="flex-1 items-center justify-center bg-white">
+                <ActivityIndicator size="large" color="#0000ff" />
                 <Text>Loading...</Text>
             </View>
         );
@@ -61,19 +62,32 @@ const Profile = () => {
     }
 
     return (
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }} className="bg-white">
-
+        <ScrollView className="bg-white">
             <View className="flex-1 py-10 px-4">
                 {/* Header */}
-                <View className="px-6 py-4">
-                    <Text className="text-blue-900 text-3xl font-bold">mediCare</Text>
-                    <Text className="text-blue-900 text-xl mt-2">My Profile</Text>
+                <View className="flex flex-row items-center justify-between">
+                    <View className="pt-4">
+                        <Text className="text-blue-900 text-3xl font-bold">Medi Care</Text>
+                        <Text className="text-blue-900 text-md">Profile</Text>
+                    </View>
+
+                    {/* User Profile Image */}
+                    <View className="flex-row items-center mr-2">
+                        {userDetails?.profileImageUrl ? (
+                            <Image
+                                source={{ uri: userDetails.profileImageUrl }}
+                                className="w-14 h-14 rounded-full"
+                            />
+                        ) : (
+                            <View className="w-14 h-14 rounded-full bg-gray-300" />
+                        )}
+                    </View>
                 </View>
 
                 {/* Profile Details */}
                 <View className="flex-1 items-center justify-start pt-10 w-full">
                     {userDetails ? (
-                        <View className="items-center  rounded-lg w-full max-w-md px-5">
+                        <View className="items-center rounded-lg w-full max-w-md px-5">
                             {userDetails.profileImageUrl ? (
                                 <Image
                                     source={{ uri: userDetails.profileImageUrl }}
@@ -83,31 +97,31 @@ const Profile = () => {
                                 <View className="w-24 h-24 rounded-full bg-gray-300 mb-4" />
                             )}
                             <TextInput
-                                className="bg-gray-100  px-4 py-2 rounded-md mb-2 w-full"
+                                className="bg-gray-100 px-4 py-2 rounded-md mb-2 w-full"
                                 placeholder="Name"
-                                value={userDetails.name}
+                                value={userDetails.name || ''}
                                 editable={false}
                             />
                             <TextInput
-                                className="bg-gray-100  px-4 py-2 rounded-md mb-2 w-full"
+                                className="bg-gray-100 px-4 py-2 rounded-md mb-2 w-full"
                                 placeholder="Email"
-                                value={userDetails.email}
+                                value={userDetails.email || ''}
                                 editable={false}
                             />
                             <TextInput
                                 className="bg-gray-100 px-4 py-2 rounded-md mb-2 w-full"
                                 placeholder="Phone"
-                                value={userDetails.phone}
+                                value={userDetails.phone || ''}
                                 editable={false}
                             />
                             <TextInput
                                 className="bg-gray-100 px-4 py-2 rounded-md mb-2 w-full"
                                 placeholder="Gender"
-                                value={userDetails.gender}
+                                value={userDetails.gender || ''}
                                 editable={false}
                             />
                             <View className="flex items-center justify-center w-full">
-                                <Pressable onPress={handleLogout} className="bg-red-500  py-4 rounded-md shadow-md w-full">
+                                <Pressable onPress={handleLogout} className="bg-red-500 py-4 rounded-md shadow-md w-full">
                                     <Text className="text-center text-white text-lg font-bold">Logout</Text>
                                 </Pressable>
                             </View>
@@ -116,9 +130,6 @@ const Profile = () => {
                         <Text>No user data available.</Text>
                     )}
                 </View>
-
-                {/* Logout Button */}
-
             </View>
         </ScrollView>
     );

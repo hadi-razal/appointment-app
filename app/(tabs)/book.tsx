@@ -113,10 +113,12 @@ const Book = () => {
         <View className="flex-1 pt-10 px-4 bg-white">
             {/* Header */}
             <View className='flex flex-row items-center justify-between'>
+                
                 <View className="pt-4">
                     <Text className="text-blue-900 text-3xl font-bold">Medi Care</Text>
-                    <Text className="text-blue-900 text-xl mt-2">Book an appointment</Text>
+                    <Text className="text-blue-900 text-md">book an appointment</Text>
                 </View>
+
 
                 {/* User Profile Image */}
                 <View className="flex-row items-center mr-2">

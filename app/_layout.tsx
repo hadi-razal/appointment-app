@@ -8,6 +8,7 @@ import 'react-native-reanimated';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { NativeWindStyleSheet } from 'nativewind';
 import { auth } from '@/firebase';
+import { StatusBar } from 'react-native';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -26,12 +27,6 @@ export default function RootLayout() {
     if (loaded) {
       SplashScreen.hideAsync();
     }
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        router.replace('/home');
-      }
-    });
-    return () => unsubscribe();
   }, [loaded]);
 
   if (!loaded) {

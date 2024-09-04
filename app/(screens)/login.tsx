@@ -20,9 +20,9 @@ const LoginPage = () => {
 
             setLoading(true);
 
-            await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate network request
+            await new Promise(resolve => setTimeout(resolve, 2000));
             setLoading(false);
-            alert('Login Successful'); // Or handle successful login logic here
+            alert('Login Successful');
         } catch (error) {
             setLoading(false);
             alert('Login Failed');

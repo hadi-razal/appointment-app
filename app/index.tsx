@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Text, View, TouchableOpacity, SafeAreaView } from 'react-native';
+import { Text, View, TouchableOpacity, SafeAreaView, StatusBar } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { router, Stack } from 'expo-router';
 import { auth } from '@/firebase';
@@ -20,6 +20,7 @@ export default function LandingScreen() {
     return (
         <SafeAreaView style={{ flex: 1 }} className="bg-white py-10">
             <Stack.Screen options={{ headerShown: false }} />
+            <StatusBar barStyle="dark-content" backgroundColor="white" />
 
             {/* Welcome Section */}
             <View className="flex items-center justify-between w-full h-full">
