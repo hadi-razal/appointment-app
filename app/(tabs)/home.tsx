@@ -11,7 +11,9 @@ const appointments: any = [
   { id: 2, doctor: 'Dr. Jane Doe', time: '2:00 PM - 3:00 PM', date: 'Sep 7, 2024' },
 ];
 
+
 export default function HomeScreen() {
+
   const [userDetails, setUserDetails] = useState<any>();
 
   useEffect(() => {
@@ -34,8 +36,9 @@ export default function HomeScreen() {
   }, []);
 
   return (
-    <SafeAreaView style={{ flex: 1 }} className="flex-1 bg-white px-4 pt-10">
-      {/* Status Bar */}
+    <View className="bg-white px-4 pt-10">
+
+
       <StatusBar barStyle="dark-content" backgroundColor="white" />
 
       {/* Header */}
@@ -58,9 +61,10 @@ export default function HomeScreen() {
         </View>
       </View>
 
+
       {/* About Section */}
-      <View className="mb-6 mt-4">
-        <Text className="text-xl font-semibold text-blue-900 mb-2">What We Do?</Text>
+      <View className=" mb-6 mt-4">
+        <Text className="text-xl font-semibold text-blue-900  mb-2">What We Do?</Text>
         <Text className="text-gray-700 mb-4">
           At Medi Care, we revolutionize the way you manage your health. Our platform allows you to:
         </Text>
@@ -79,7 +83,7 @@ export default function HomeScreen() {
       </View>
 
       {/* Appointments Section */}
-      <View className="mb-10 bg-white">
+      <View className=" mb-10 bg-white">
         <Text className="text-xl font-semibold text-center text-blue-900 mb-2">Upcoming Appointments</Text>
         {appointments.length > 0 ? (
           <FlatList
@@ -101,6 +105,6 @@ export default function HomeScreen() {
           </Text>
         )}
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
