@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, Pressable, TextInput, FlatList, Image } from 'react-native';
-import { signOut } from 'firebase/auth';
-import { auth, db } from '@/firebase';
-import { useRouter } from 'expo-router';
 import { FontAwesome } from '@expo/vector-icons';
+import { auth, db } from '@/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { clinics } from '@/data/data';
 
@@ -18,10 +16,9 @@ interface Clinic {
 }
 
 const Book = () => {
-    const [searchTerm, setSearchTerm] = useState('');
-    const [userDetails, setUserDetails] = useState<any>('');
-    const [selectedSpecialization, setSelectedSpecialization] = useState<any>();
-    const router = useRouter();
+    const [searchTerm, setSearchTerm] = useState<string>('');
+    const [userDetails, setUserDetails] = useState<{ profileImageUrl?: string } | null>(null);
+    const [selectedSpecialization, setSelectedSpecialization] = useState<string | undefined>(undefined);
 
     useEffect(() => {
         const fetchUserDetails = async () => {
@@ -93,7 +90,7 @@ const Book = () => {
 
     const specializationItem = ({ item }: { item: string }) => (
         <Pressable
-            onPress={() => setSelectedSpecialization(item)}
+            onPress={() => setSelectedSpecialization((item === selectedSpecialization) ? undefined : item)}
             className={`mr-2 border border-gray-300 rounded-md bg-white h-10 flex items-center justify-center px-2 ${selectedSpecialization === item ? 'bg-blue-500' : ''}`}
         >
             <Text className={`text-lg font-bold ${selectedSpecialization === item ? 'text-white' : 'text-blue-900'}`}>
@@ -102,6 +99,15 @@ const Book = () => {
         </Pressable>
     );
 
+    // Extract unique specializations from clinics
+    const specializations = [...new Set(clinics.map((item) => item.specialization))];
+
+    // Filter clinics based on search term and selected specialization
+    const filteredClinics = clinics.filter((item: Clinic) =>
+        (item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            item.location.toLowerCase().includes(searchTerm.toLowerCase())) &&
+        (selectedSpecialization ? item.specialization === selectedSpecialization : true)
+    );
 
     return (
         <View className="flex-1 pt-10 px-4 bg-white">
@@ -139,21 +145,17 @@ const Book = () => {
             <View className='mb-3'>
                 <FlatList
                     horizontal
-                    data={[...new Set(clinics.map((item) => item.specialization))]}
+                    data={specializations}
                     renderItem={specializationItem}
                     keyExtractor={(item) => item}
                     showsHorizontalScrollIndicator={false}
                 />
             </View>
 
-
             {/* FlatList for doctors and clinics */}
             <View className='mb-10 h-full'>
                 <FlatList
-                    data={clinics.filter((item: Clinic) =>
-                        item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                        item.location.toLowerCase().includes(searchTerm.toLowerCase())
-                    )}
+                    data={filteredClinics}
                     renderItem={clinicItem}
                     keyExtractor={(item) => item.id}
                 />

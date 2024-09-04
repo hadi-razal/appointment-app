@@ -86,12 +86,12 @@ const LoginPage = () => {
 
                 <View className="mt-4 flex flex-col items-center justify-center gap-1 py-3">
                     <Text>Don't have an account?{" "}
-                        <Link href={'/signup'} className="text-blue-800 text-sm">Sign up</Link>
+                        <Link href={'/signUp'} className="text-blue-800 text-sm">Sign up</Link>
                     </Text>
 
                     <Link href={'/forgotpassword'} className="text-blue-800 text-sm">
                         Forgot Password?
-                    </Link>
+                    </Link>                                                                                                                                     
                 </View>
 
             </View>
@@ -100,3 +100,4 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+ 
