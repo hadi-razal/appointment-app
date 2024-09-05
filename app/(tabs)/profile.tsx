@@ -74,6 +74,14 @@ const Profile = () => {
         }
     };
 
+    const navigateToSavedDoctors = () => {
+        router.push("/saved-doctors");
+    };
+
+    const navigateToAppointments = () => {
+        router.push("/appointments");
+    };
+
     if (loading) {
         return (
             <SafeAreaView className="flex-1 items-center justify-center bg-white">
@@ -146,14 +154,26 @@ const Profile = () => {
                                 <Text className="text-white text-lg font-bold ml-2">Save Changes</Text>
                             </Pressable>
                         ) : (
-                            <Pressable onPress={() => setIsEditing(true)} className="bg-blue-600 py-3 rounded-md shadow-md w-full flex flex-row items-center justify-center">
+                            <Pressable onPress={() => setIsEditing(true)} className="bg-blue-900  py-3 rounded-md shadow-md w-full flex flex-row items-center justify-center">
                                 <Ionicons name="pencil-outline" size={20} color="white" />
                                 <Text className="text-white text-lg font-bold ml-2">Edit Profile</Text>
                             </Pressable>
                         )}
 
+                        {/* Navigate to Saved Doctors */}
+                        <Pressable onPress={navigateToSavedDoctors} className="bg-blue-900  py-3 rounded-md shadow-md w-full flex flex-row items-center justify-center mt-4">
+                            <Ionicons name="heart-outline" size={20} color="white" />
+                            <Text className="text-white text-lg font-bold ml-2">Saved Doctors</Text>
+                        </Pressable>
+
+                        {/* Navigate to Appointments */}
+                        <Pressable onPress={navigateToAppointments} className="bg-blue-900 py-3 rounded-md shadow-md w-full flex flex-row items-center justify-center mt-4">
+                            <Ionicons name="calendar-outline" size={20} color="white" />
+                            <Text className="text-white text-lg font-bold ml-2">Appointments</Text>
+                        </Pressable>
+
                         {/* Logout Button */}
-                        <Pressable onPress={handleLogout} className="bg-red-500 py-3 rounded-md shadow-md w-full flex flex-row items-center justify-center mt-4">
+                        <Pressable onPress={handleLogout} className="bg-red-600  py-3 rounded-md shadow-md w-full flex flex-row items-center justify-center mt-4">
                             <Ionicons name="log-out-outline" size={20} color="white" />
                             <Text className="text-white text-lg font-bold ml-2">Logout</Text>
                         </Pressable>

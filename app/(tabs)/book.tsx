@@ -17,9 +17,11 @@ interface Clinic {
 }
 
 const Book = () => {
-    const [searchTerm, setSearchTerm] = useState<string>('');
+    const [searchTerm, setSearchTerm] = useState<string>('');  // To hold the input value
+    const [searchQuery, setSearchQuery] = useState<string>(''); // To hold the value on button click
     const [userDetails, setUserDetails] = useState<{ profileImageUrl?: string } | null>(null);
     const [selectedSpecialization, setSelectedSpecialization] = useState<string | undefined>(undefined);
+    const [filteredClinics, setFilteredClinics] = useState<Clinic[]>(clinics);
 
     useEffect(() => {
         const fetchUserDetails = async () => {
@@ -40,11 +42,24 @@ const Book = () => {
         fetchUserDetails();
     }, []);
 
+    // Update filtered clinics when search query or specialization changes
+    useEffect(() => {
+        const results = clinics.filter((item) =>
+            (item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                item.location.toLowerCase().includes(searchQuery.toLowerCase())) &&
+            (selectedSpecialization ? item.specialization === selectedSpecialization : true)
+        );
+        setFilteredClinics(results);
+    }, [searchQuery, selectedSpecialization]);
+
+    // Trigger search on button click
+    const handleSearch = () => {
+        setSearchQuery(searchTerm);  // Set the search query to the current search term
+    };
+
     // Render item for FlatList
     const clinicItem = ({ item }: { item: Clinic }) => (
-        <Pressable
-            className="p-4 border border-gray-300 rounded-md my-2 bg-white shadow-sm"
-        >
+        <Pressable className="p-4 border border-gray-300 rounded-md my-2 bg-white shadow-sm">
             {/* Doctor/Clinic Name */}
             <Text className="text-lg font-bold text-blue-900">{item.name}</Text>
 
@@ -91,7 +106,7 @@ const Book = () => {
 
     const specializationItem = ({ item }: { item: string }) => (
         <Pressable
-            onPress={() => setSelectedSpecialization((item === selectedSpecialization) ? undefined : item)}
+            onPress={() => setSelectedSpecialization(item === selectedSpecialization ? undefined : item)}
             className={`mr-2 border border-gray-300 rounded-md bg-white h-8 flex items-center justify-center px-2 ${selectedSpecialization === item ? 'bg-blue-900' : ''}`}
         >
             <Text className={`text-md font-normal ${selectedSpecialization === item ? 'text-white' : 'text-blue-900'}`}>
@@ -103,31 +118,24 @@ const Book = () => {
     // Extract unique specializations from clinics
     const specializations = [...new Set(clinics.map((item) => item.specialization))];
 
-    // Filter clinics based on search term and selected specialization
-    const filteredClinics = clinics.filter((item: Clinic) =>
-        (item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            item.location.toLowerCase().includes(searchTerm.toLowerCase())) &&
-        (selectedSpecialization ? item.specialization === selectedSpecialization : true)
-    );
-
     return (
         <SafeAreaView className="flex-1 bg-white pt-10">
-            
             {/* Header */}
             <HeaderBar subHeading='Take an appointment' />
 
             <View className="flex-1 px-4">
-
-
-
                 {/* Search Input */}
-                <View className="my-3">
+                <View className="my-3 border border-gray-300 rounded-md flex flex-row items-center justify-center w-full h-10">
                     <TextInput
                         placeholder='Search doctor, clinic, or location'
                         value={searchTerm}
                         onChangeText={setSearchTerm}
-                        className='border border-gray-300 px-4 py-2 rounded-md'
+                        className='flex-1 px-4 py-2 rounded-md placeholder:text-gray-900'
+                        placeholderTextColor='gray'
                     />
+                    <Pressable className='bg-blue-900 p-2 px-3 border border-blue-900 rounded-r-md h-full flex items-center justify-center' onPress={handleSearch}>
+                        <FontAwesome name="search" size={16} color="white" />
+                    </Pressable>
                 </View>
 
                 {/* Specialization Filter */}
@@ -137,6 +145,7 @@ const Book = () => {
                         data={specializations}
                         renderItem={specializationItem}
                         keyExtractor={(item) => item}
+                        
                         showsHorizontalScrollIndicator={false}
                     />
                 </View>
