@@ -33,7 +33,7 @@ const HeaderBar = ({ subHeading }: { subHeading: string }) => {
 
 
     return (
-        <View className='flex flex-row items-center justify-between pt-14'>
+        <View className='flex flex-row items-center justify-between px-4'>
             <View className="">
                 <Text className="text-blue-900 text-3xl font-bold">Medi Care</Text>
                 <Text className="text-blue-900 text-md">{subHeading}</Text>
@@ -44,10 +44,10 @@ const HeaderBar = ({ subHeading }: { subHeading: string }) => {
                 {userDetails?.profileImageUrl ? (
                     <Image
                         source={{ uri: userDetails.profileImageUrl }}
-                        className="w-10 h-10 rounded-full"
+                        className="w-[49px] h-[49px] rounded-full"
                     />
                 ) : (
-                    <View className="w-10 h-10 rounded-full bg-gray-300" />
+                    <View className="w-[49px] h-[49px] rounded-full bg-gray-300" />
                 )}
             </Pressable>
         </View>

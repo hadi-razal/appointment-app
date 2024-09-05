@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, Pressable, TextInput, FlatList, Image } from 'react-native';
+import { Text, View, Pressable, TextInput, FlatList, SafeAreaView } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { auth, db } from '@/firebase';
 import { doc, getDoc } from 'firebase/firestore';
@@ -43,7 +43,7 @@ const Book = () => {
     // Render item for FlatList
     const clinicItem = ({ item }: { item: Clinic }) => (
         <Pressable
-            className="p-4 border border-gray-300 rounded-md my-2 bg-white"
+            className="p-4 border border-gray-300 rounded-md my-2 bg-white shadow-sm"
         >
             {/* Doctor/Clinic Name */}
             <Text className="text-lg font-bold text-blue-900">{item.name}</Text>
@@ -72,7 +72,7 @@ const Book = () => {
                 {/* Take Appointment Button */}
                 <Pressable
                     onPress={() => console.log(`Taking appointment with ${item.name}`)}
-                    className="bg-blue-500 px-4 py-2 rounded-md"
+                    className="bg-blue-900 px-4 py-2 rounded-md"
                 >
                     <Text className="text-white font-bold">Take Appointment</Text>
                 </Pressable>
@@ -92,9 +92,9 @@ const Book = () => {
     const specializationItem = ({ item }: { item: string }) => (
         <Pressable
             onPress={() => setSelectedSpecialization((item === selectedSpecialization) ? undefined : item)}
-            className={`mr-2 border border-gray-300 rounded-md bg-white h-10 flex items-center justify-center px-2 ${selectedSpecialization === item ? 'bg-blue-500' : ''}`}
+            className={`mr-2 border border-gray-300 rounded-md bg-white h-8 flex items-center justify-center px-2 ${selectedSpecialization === item ? 'bg-blue-900' : ''}`}
         >
-            <Text className={`text-lg font-bold ${selectedSpecialization === item ? 'text-white' : 'text-blue-900'}`}>
+            <Text className={`text-md font-normal ${selectedSpecialization === item ? 'text-white' : 'text-blue-900'}`}>
                 {item}
             </Text>
         </Pressable>
@@ -111,40 +111,45 @@ const Book = () => {
     );
 
     return (
-        <View className="flex-1  px-4 bg-white">
+        <SafeAreaView className="flex-1 bg-white pt-10">
+            
             {/* Header */}
             <HeaderBar subHeading='Take an appointment' />
 
-            {/* Search Input */}
-            <View className="my-4">
-                <TextInput
-                    placeholder='Search doctor, clinic, or location'
-                    value={searchTerm}
-                    onChangeText={setSearchTerm}
-                    className='border border-gray-300 px-4 py-2 rounded-md'
-                />
-            </View>
+            <View className="flex-1 px-4">
 
-            {/* Specialization Filter */}
-            <View className='mb-3'>
-                <FlatList
-                    horizontal
-                    data={specializations}
-                    renderItem={specializationItem}
-                    keyExtractor={(item) => item}
-                    showsHorizontalScrollIndicator={false}
-                />
-            </View>
 
-            {/* FlatList for doctors and clinics */}
-            <View className='mb-10 h-full'>
-                <FlatList
-                    data={filteredClinics}
-                    renderItem={clinicItem}
-                    keyExtractor={(item) => item.id}
-                />
+
+                {/* Search Input */}
+                <View className="my-3">
+                    <TextInput
+                        placeholder='Search doctor, clinic, or location'
+                        value={searchTerm}
+                        onChangeText={setSearchTerm}
+                        className='border border-gray-300 px-4 py-2 rounded-md'
+                    />
+                </View>
+
+                {/* Specialization Filter */}
+                <View className='mb-1'>
+                    <FlatList
+                        horizontal
+                        data={specializations}
+                        renderItem={specializationItem}
+                        keyExtractor={(item) => item}
+                        showsHorizontalScrollIndicator={false}
+                    />
+                </View>
+
+                <View className='mb-10'>
+                    <FlatList
+                        data={filteredClinics}
+                        renderItem={clinicItem}
+                        keyExtractor={(item) => item.id}
+                    />
+                </View>
             </View>
-        </View>
+        </SafeAreaView>
     );
 };
 
