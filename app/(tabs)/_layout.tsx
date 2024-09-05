@@ -2,7 +2,7 @@ import React from 'react';
 import { Tabs } from 'expo-router';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function TabLayout() {
 
@@ -12,6 +12,7 @@ export default function TabLayout() {
         headerShown: false,
         tabBarActiveTintColor: "#1e3a8a",
         tabBarStyle: {
+          paddingVertical: 3,
           backgroundColor: Colors.secondaryColor,
         },
       }}
@@ -29,10 +30,10 @@ export default function TabLayout() {
       <Tabs.Screen
         name="book"
         options={{
-          title: 'Book',
+          title: 'Take App',
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name='add' color={color} size={30} />
+            <MaterialCommunityIcons name='plus-box' color={color} size={30} />
           ),
         }}
       />

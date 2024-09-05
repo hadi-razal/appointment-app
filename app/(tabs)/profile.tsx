@@ -4,6 +4,7 @@ import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { auth, db } from '@/firebase';
 import { router } from 'expo-router';
 import HeaderBar from '@/components/HeaderBar';
+import { Ionicons } from '@expo/vector-icons';
 
 const Profile = () => {
     const [userDetails, setUserDetails] = useState<any>(null);
@@ -111,27 +112,27 @@ const Profile = () => {
 
                         {/* Profile Fields */}
                         <TextInput
-                            className="bg-gray-100 px-4 py-2 rounded-md mb-2 w-full"
+                            className="bg-gray-100 px-4 py-2 rounded-md mb-3 w-full"
                             placeholder="Name"
                             value={name}
                             onChangeText={(text) => setName(text)}
                             editable={isEditing}
                         />
                         <TextInput
-                            className="bg-gray-100 px-4 py-2 rounded-md mb-2 w-full"
+                            className="bg-gray-100 px-4 py-2 rounded-md mb-3 w-full"
                             placeholder="Email"
                             value={userDetails.email || ''}
                             editable={false} // Email cannot be edited
                         />
                         <TextInput
-                            className="bg-gray-100 px-4 py-2 rounded-md mb-2 w-full"
+                            className="bg-gray-100 px-4 py-2 rounded-md mb-3 w-full"
                             placeholder="Phone"
                             value={phone}
                             onChangeText={(text) => setPhone(text)}
                             editable={isEditing}
                         />
                         <TextInput
-                            className="bg-gray-100 px-4 py-2 rounded-md mb-2 w-full"
+                            className="bg-gray-100 px-4 py-2 rounded-md mb-3 w-full"
                             placeholder="Gender"
                             value={gender}
                             onChangeText={(text) => setGender(text)}
@@ -140,21 +141,22 @@ const Profile = () => {
 
                         {/* Save / Edit Button */}
                         {isEditing ? (
-                            <Pressable onPress={handleSave} className="bg-blue-500 py-4 rounded-md shadow-md w-full">
-                                <Text className="text-center text-white text-lg font-bold">Save Changes</Text>
+                            <Pressable onPress={handleSave} className="bg-blue-600 py-3 rounded-md shadow-md w-full flex flex-row items-center justify-center">
+                                <Ionicons name="save-outline" size={20} color="white" />
+                                <Text className="text-white text-lg font-bold ml-2">Save Changes</Text>
                             </Pressable>
                         ) : (
-                            <Pressable onPress={() => setIsEditing(true)} className="bg-blue-500 py-4 rounded-md shadow-md w-full">
-                                <Text className="text-center text-white text-lg font-bold">Edit Profile</Text>
+                            <Pressable onPress={() => setIsEditing(true)} className="bg-blue-600 py-3 rounded-md shadow-md w-full flex flex-row items-center justify-center">
+                                <Ionicons name="pencil-outline" size={20} color="white" />
+                                <Text className="text-white text-lg font-bold ml-2">Edit Profile</Text>
                             </Pressable>
                         )}
 
                         {/* Logout Button */}
-                        <View className="flex items-center justify-center w-full mt-4">
-                            <Pressable onPress={handleLogout} className="bg-red-500 py-4 rounded-md shadow-md w-full">
-                                <Text className="text-center text-white text-lg font-bold">Logout</Text>
-                            </Pressable>
-                        </View>
+                        <Pressable onPress={handleLogout} className="bg-red-500 py-3 rounded-md shadow-md w-full flex flex-row items-center justify-center mt-4">
+                            <Ionicons name="log-out-outline" size={20} color="white" />
+                            <Text className="text-white text-lg font-bold ml-2">Logout</Text>
+                        </Pressable>
                     </View>
                 ) : (
                     <Text>No user data available.</Text>
