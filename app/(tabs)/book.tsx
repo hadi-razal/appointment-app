@@ -4,6 +4,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { auth, db } from '@/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { clinics } from '@/data/data';
+import HeaderBar from '@/components/HeaderBar';
 
 interface Clinic {
     id: string;
@@ -110,28 +111,9 @@ const Book = () => {
     );
 
     return (
-        <View className="flex-1 pt-10 px-4 bg-white">
+        <View className="flex-1  px-4 bg-white">
             {/* Header */}
-            <View className='flex flex-row items-center justify-between'>
-                
-                <View className="pt-4">
-                    <Text className="text-blue-900 text-3xl font-bold">Medi Care</Text>
-                    <Text className="text-blue-900 text-md">book an appointment</Text>
-                </View>
-
-
-                {/* User Profile Image */}
-                <View className="flex-row items-center mr-2">
-                    {userDetails?.profileImageUrl ? (
-                        <Image
-                            source={{ uri: userDetails.profileImageUrl }}
-                            className="w-14 h-14 rounded-full"
-                        />
-                    ) : (
-                        <View className="w-14 h-14 rounded-full bg-gray-300" />
-                    )}
-                </View>
-            </View>
+            <HeaderBar subHeading='Take an appointment' />
 
             {/* Search Input */}
             <View className="my-4">

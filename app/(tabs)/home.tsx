@@ -3,6 +3,7 @@ import { Text, View, SafeAreaView, ScrollView, Image, FlatList, StatusBar } from
 import { router } from 'expo-router';
 import { auth, db } from '@/firebase';
 import { doc, getDoc } from 'firebase/firestore';
+import HeaderBar from '@/components/HeaderBar';
 
 const appointments: any = [
   { id: 1, doctor: 'Dr. Smith', time: '10:00 AM - 11:00 AM', date: 'Sep 5, 2024' },
@@ -36,30 +37,14 @@ export default function HomeScreen() {
   }, []);
 
   return (
-    <View className="bg-white px-4 pt-10">
+    <View className="bg-white px-4">
 
 
       <StatusBar barStyle="dark-content" backgroundColor="white" />
 
       {/* Header */}
-      <View className='flex flex-row items-center justify-between'>
-        <View className="pt-4">
-          <Text className="text-blue-900 text-3xl font-bold">Medi Care</Text>
-          <Text className="text-blue-900 text-md">Welcome Back , {userDetails?.name}</Text>
-        </View>
+      <HeaderBar subHeading={`Welcome back , ${userDetails?.name}`} />
 
-        {/* User Profile Image */}
-        <View className="flex-row items-center mr-2">
-          {userDetails?.profileImageUrl ? (
-            <Image
-              source={{ uri: userDetails.profileImageUrl }}
-              className="w-14 h-14 rounded-full"
-            />
-          ) : (
-            <View className="w-14 h-14 rounded-full bg-gray-300" />
-          )}
-        </View>
-      </View>
 
 
       {/* About Section */}
