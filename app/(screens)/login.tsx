@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, router, Stack } from 'expo-router';
-import { View, Text, TextInput, Pressable, ScrollView } from 'react-native';
+import { View, Text, TextInput, Pressable, ScrollView, SafeAreaView } from 'react-native';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '@/firebase';
 
@@ -43,7 +43,14 @@ const LoginPage = () => {
 
 
     return (
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }} className='bg-white'>
+        <SafeAreaView className='flex-1 bg-white pt-10'>
+
+            <View className='flex flex-row items-center justify-start px-4'>
+                <View className="">
+                    <Text className="text-blue-900 text-3xl font-bold">Medi Care</Text>
+                    <Text className="text-blue-900 text-md">Sign in to continue</Text>
+                </View>
+            </View>
 
             <Stack.Screen
                 options={{
@@ -51,11 +58,7 @@ const LoginPage = () => {
                 }}
             />
 
-            <View className="flex flex-col items-center px-6 py-8 pt-[80px]">
-                <View className='w-full items-start justify-start'>
-                    <Text className="text-blue-900 text-2xl font-bold text-start">mediCare</Text>
-                    <Text className="text-gray-500 text-base mb-4">Sign in to continue</Text>
-                </View>
+            <View className="flex flex-col items-center px-4 py-6">
 
                 <View className="w-full mb-2">
                     <Text className="text-gray-700 mb-2">Email</Text>
@@ -64,23 +67,25 @@ const LoginPage = () => {
                         placeholder="Enter your email"
                         keyboardType="email-address"
                         value={email}
+                        placeholderTextColor='gray'
                         onChangeText={setEmail}
                     />
                 </View>
 
 
-                <View className="w-full mb-2">
+                <View className="w-full mb-3">
                     <Text className="text-gray-700 mb-2">Passowrd</Text>
                     <TextInput
                         className="bg-gray-100 px-4 py-2 rounded-md"
                         placeholder="Enter your password"
                         value={password}
                         onChangeText={setPassword}
+                        placeholderTextColor='gray'
                     />
                 </View>
 
 
-                <Pressable onPress={handleLogin} className='bg-blue-600 shadow-md p-4 w-full rounded-md'>
+                <Pressable onPress={handleLogin} className='bg-blue-900 shadow-md p-4 w-full rounded-md'>
                     <Text className='text-white text-center font-normal'>{loading ? 'Logging in...' : 'Login'}</Text>
                 </Pressable>
 
@@ -91,13 +96,12 @@ const LoginPage = () => {
 
                     <Link href={'/forgotpassword'} className="text-blue-800 text-sm">
                         Forgot Password?
-                    </Link>                                                                                                                                     
+                    </Link>
                 </View>
 
             </View>
-        </ScrollView>
+        </SafeAreaView>
     );
 };
 
 export default LoginPage;
- 
