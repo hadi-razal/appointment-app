@@ -41,9 +41,9 @@ const HeaderBar = ({ subHeading }: { subHeading: string }) => {
 
             {/* User Profile Image */}
             <Pressable onPress={() => router.push('/profile')} className="flex-row items-center mr-2">
-                {userDetails?.profileImageUrl ? (
+                {userDetails?.profileImageUrl && userDetails?.profileImageUrl ? (
                     <Image
-                        source={{ uri: userDetails.profileImageUrl }}
+                        source={{ uri: userDetails?.profileImageUrl }}
                         className="w-[49px] h-[49px] rounded-full"
                     />
                 ) : (

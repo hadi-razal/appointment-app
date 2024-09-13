@@ -38,7 +38,7 @@ export default function HomeScreen() {
       <StatusBar barStyle="dark-content" backgroundColor="white" />
 
       {/* Header */}
-      <HeaderBar subHeading={`Welcome back, ${userDetails?.name}`} />
+      <HeaderBar subHeading={`Welcome back, ${userDetails?.name ? userDetails.name : "loading"}`} />
 
       {/* Main Content */}
       <View className="flex-1 px-4">
