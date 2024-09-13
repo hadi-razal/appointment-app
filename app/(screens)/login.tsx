@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link, router, Stack } from 'expo-router';
-import { View, Text, TextInput, Pressable, ScrollView, SafeAreaView } from 'react-native';
+import { View, Text, TextInput, Pressable, ScrollView, SafeAreaView, ToastAndroid } from 'react-native';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '@/firebase';
+import { Platform } from 'react-native';
 
 const LoginPage = () => {
     const [loading, setLoading] = useState<boolean>(false);
@@ -22,14 +23,16 @@ const LoginPage = () => {
 
             await new Promise(resolve => setTimeout(resolve, 2000));
             setLoading(false);
-            alert('Login Successful');
+            if (Platform.OS === 'android') {
+                ToastAndroid.show('Logged in successfully!', ToastAndroid.SHORT);
+            }
         } catch (error) {
             setLoading(false);
             alert('Login Failed');
             console.log(error);
         }
     };
-
+    
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user) => {

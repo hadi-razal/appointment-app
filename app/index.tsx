@@ -38,7 +38,7 @@ export default function LandingScreen() {
                 <View className="flex justify-center items-center gap-2 w-full h-1/3">
                     <TouchableOpacity
                         onPress={() => router.push('/login')}
-                        className="bg-blue-600 p-4 rounded-lg flex-row items-center justify-center shadow-lg w-4/5"
+                        className="bg-blue-900 p-4 rounded-lg flex-row items-center justify-center shadow-lg w-4/5"
                     >
                         <FontAwesome name="sign-in" size={20} color="white" />
                         <Text className="text-white text-lg font-bold ml-2">Login</Text>
@@ -46,7 +46,7 @@ export default function LandingScreen() {
 
                     <TouchableOpacity
                         onPress={() => router.push('/signUp')}
-                        className="bg-green-600 p-4 rounded-lg flex-row items-center justify-center shadow-lg w-4/5"
+                        className="bg-blue-900 p-4 rounded-lg flex-row items-center justify-center shadow-lg w-4/5"
                     >
                         <FontAwesome name="user-plus" size={20} color="white" />
                         <Text className="text-white text-lg font-bold ml-2">Sign Up</Text>

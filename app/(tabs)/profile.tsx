@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Image, Text, View, Alert, Pressable, ActivityIndicator, TextInput, SafeAreaView } from 'react-native';
+import { Image, Text, View, Alert, Pressable, ActivityIndicator, TextInput, SafeAreaView, Platform, ToastAndroid } from 'react-native';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { auth, db } from '@/firebase';
 import { router } from 'expo-router';
@@ -68,18 +68,24 @@ const Profile = () => {
         try {
             await auth.signOut();
             router.replace('/login');
-            Alert.alert('Success', 'You have been logged out.');
+
+            if (Platform.OS === 'android') {
+                ToastAndroid.show('Logged Out successfully!', ToastAndroid.SHORT);
+            }
+            if (Platform.OS === 'ios') {
+                Alert.alert('Success', 'You have been logged out.');
+            }
         } catch (error: any) {
             Alert.alert('Error', error.message);
         }
     };
 
     const navigateToSavedDoctors = () => {
-        router.push("/saved-doctors");
+        // router.push("/saved-doctors");
     };
 
     const navigateToAppointments = () => {
-        router.push("/appointments");
+        // router.push("/appointments");
     };
 
     if (loading) {
