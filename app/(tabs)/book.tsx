@@ -17,8 +17,9 @@ interface Clinic {
 }
 
 const Book = () => {
-    const [searchTerm, setSearchTerm] = useState<string>('');  // To hold the input value
-    const [searchQuery, setSearchQuery] = useState<string>(''); // To hold the value on button click
+    
+    const [searchTerm, setSearchTerm] = useState<string>('');  
+    const [searchQuery, setSearchQuery] = useState<string>(''); 
     const [userDetails, setUserDetails] = useState<{ profileImageUrl?: string } | null>(null);
     const [selectedSpecialization, setSelectedSpecialization] = useState<string | undefined>(undefined);
     const [filteredClinics, setFilteredClinics] = useState<Clinic[]>(clinics);
@@ -26,12 +27,12 @@ const Book = () => {
     useEffect(() => {
         const fetchUserDetails = async () => {
             try {
-                const user = auth.currentUser; // Get the currently logged-in user
+                const user = auth.currentUser; 
                 if (user) {
                     const docRef = doc(db, 'users', user.uid);
                     const docSnap = await getDoc(docRef);
                     if (docSnap.exists()) {
-                        setUserDetails(docSnap.data()); // Set user details to state
+                        setUserDetails(docSnap.data()); 
                     }
                 }
             } catch (err) {

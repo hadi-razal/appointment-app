@@ -13,11 +13,10 @@
       "backgroundColor": "#1e3a8a"
     },
     "ios": {
-      "supportsTablet": true
-    },
+     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/online-appointment.png",
+        "foregroundImage": "./assets/images/online2we.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.hadirasal.medicare"
@@ -29,8 +28,11 @@
     },
     "plugins": [
       "expo-router",
-      "expo-video",
-      "expo-font"
+      "expo-font",
+      "expo-splash-screen",
+      "expo-updates",
+      "expo-av",
+      "expo-image-picker"
     ],
     "experiments": {
       "typedRoutes": true
